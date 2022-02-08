@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -14,13 +15,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .defaultSuccessUrl("/view/dashboard", true)
-            .permitAll()
-            .and()
-            .logout();
+                .antMatchers("/chk").permitAll()    // LoadBalancer Chk
+                .antMatchers("/manage").hasAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/member/loginV")
+                .loginProcessingUrl("/member/loginA")
+                .usernameParameter("memId")
+                .passwordParameter("memPw")
+                .defaultSuccessUrl("/", true)
+                .permitAll()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"));
     }
 
     @Override
