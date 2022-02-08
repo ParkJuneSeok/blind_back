@@ -1,5 +1,6 @@
 package com.blind.back.blind_back.member.act;
 
+import com.blind.back.blind_back.member.biz.MemberService;
 import com.blind.back.blind_back.member.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,13 +14,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberAction {
-    /*private final */
+    private final MemberService mService;
+
+    @PostMapping(value="/checker")
+    public int checkerId(@RequestBody MemberVO mvo) {
+        return mService.checkerMemId(mvo);
+    }
 
     @PostMapping(value="/join")
     public Map<String, Object> joinA(@RequestBody MemberVO mvo) {
         Map<String, Object> rtnMap = new HashMap<>();
 
-        System.out.println(mvo);
+        int rtnCode = mService.insert(mvo);
+
+        System.out.println(rtnCode);
 
         rtnMap.put("flag", true);
         rtnMap.put("data", mvo);
