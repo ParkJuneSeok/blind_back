@@ -13,4 +13,9 @@
         INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK, INSDATE)
         VALUES(#{memId}, #{memPw}, #{memNick}, now())
     </insert>
+
+    <!-- 회원 가입 여부 확인 -->
+    <select id="searchMember" parameterType="com.blind.back.blind_back.member.vo.MemberVO" resultType="com.blind.back.blind_back.member.vo.MemberVO">
+        SELECT * FROM TBL_MEMBER WHERE MEMID = #{memId}
+    </select>
 </mapper>

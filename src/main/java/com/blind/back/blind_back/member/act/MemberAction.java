@@ -33,5 +33,4 @@ public class MemberAction {
         rtnMap.put("data", mvo);
         return rtnMap;
     }
-
 }
