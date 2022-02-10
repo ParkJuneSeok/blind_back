@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,18 @@ public class MemberAction {
         int rtnCode = mService.insert(mvo);
 
         System.out.println(rtnCode);
+
+        rtnMap.put("flag", true);
+        rtnMap.put("data", mvo);
+        return rtnMap;
+    }
+
+    @PostMapping(value="/getIp")
+    public Map<String, Object> getIp(@RequestBody MemberVO mvo, HttpServletRequest req) {
+        Map<String, Object> rtnMap = new HashMap<>();
+
+
+        System.out.println(req.getRemoteAddr());
 
         rtnMap.put("flag", true);
         rtnMap.put("data", mvo);

@@ -2,20 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.blind.back.blind_back.member.biz.MemberMapper">
-
-    <!-- 아이디 중복 체크 -->
-    <select id="checkerMemId" parameterType="com.blind.back.blind_back.member.vo.MemberVO" resultType="int">
-        SELECT IFNULL(COUNT(1), 0) as flag FROM TBL_MEMBER WHERE MEMID = #{memId}
+    <!-- -->
+    <select id="findByMemId" parameterType="String" resultType="com.blind.back.blind_back.member.vo.MemberVO">
+        SELECT
+            U.MEMPW AS MEMPW,
+            U.MEMID AS MEMID,
+            R.ROLENAME AS ROLENAME
+        FROM TBL_MEMBER AS U
+        INNER JOIN TBL_MEMBER_ROLE AS UR ON U.MEMNO = UR.MEMNO
+        INNER JOIN TBL_ROLE AS R ON R.ROLENO = UR.ROLENO
+        WHERE U.MEMID = #{memId}
     </select>
 
-    <!-- 회원 가입 쿼리 -->
-    <insert id="insert" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
-        INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK, INSDATE)
-        VALUES(#{memId}, #{memPw}, #{memNick}, now())
+    <insert id="registerMember" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
+        INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK) VALUES (#{MEMID}, #{MEMPW}, #{MEMNICK})
     </insert>
 
-    <!-- 회원 가입 여부 확인 -->
-    <select id="searchMember" parameterType="com.blind.back.blind_back.member.vo.MemberVO" resultType="com.blind.back.blind_back.member.vo.MemberVO">
-        SELECT * FROM TBL_MEMBER WHERE MEMID = #{memId}
-    </select>
+    <insert id="registerRole" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
+        INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK) VALUES (#{MEMID}, #{MEMPW}, #{MEMNICK})
+    </insert>
+
+    <insert id="registerMR">
+        INSERT INTO TBL_MEMBER_ROLE (MEMNO, ROLENO) VALUES (#{memNO}, #{roleNo})
+    </insert>
+
 </mapper>

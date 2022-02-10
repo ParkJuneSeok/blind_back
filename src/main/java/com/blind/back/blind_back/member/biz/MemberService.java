@@ -3,16 +3,19 @@ package com.blind.back.blind_back.member.biz;
 import com.blind.back.blind_back.member.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService{
     private final MemberMapper memberMapper;
 
-    public Optional<MemberVO> findByMemId(String memId) {
+    public MemberVO findByMemId(String memId) {
         return memberMapper.findByMemId(memId);
     }
 
