@@ -19,11 +19,15 @@
     </insert>
 
     <insert id="registerRole" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
-        INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK) VALUES (#{MEMID}, #{MEMPW}, #{MEMNICK})
+        INSERT INTO TBL_MEMBER_ROLE(MEMNO, ROLENO) VALUES (#{MEMNO}, #{ROLENO})
     </insert>
 
-    <insert id="registerMR">
-        INSERT INTO TBL_MEMBER_ROLE (MEMNO, ROLENO) VALUES (#{memNO}, #{roleNo})
-    </insert>
+    <select id="findMemNo" parameterType="String" resultType="Integer">
+        SELECT MEMNO FROM TBL_MEMBER WHERE MEMID = #{memId}
+    </select>
+
+    <select id="findRoleNo" parameterType="String" resultType="Integer">
+        SELECT ROLENO FROM TBL_ROLE WHERE ROLENAME = #{roleName}
+    </select>
 
 </mapper>

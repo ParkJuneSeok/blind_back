@@ -2,32 +2,29 @@ package com.blind.back.blind_back.member.biz;
 
 import com.blind.back.blind_back.member.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService{
     private final MemberMapper memberMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public MemberVO findByMemId(String memId) {
-        return memberMapper.findByMemId(memId);
-    }
+    public String InsertUser(MemberVO userVO) {
+        userVO.setMemPw(bCryptPasswordEncoder.encode(userVO.getMemPw()));
+        int flag = memberMapper.registerMember(userVO);
+        if (flag > 0) {
+            int memNo = memberMapper.findMemId(userVO.getMemId());
+            int roleNo = memberMapper.findRoleNo(userVO.getRoleName());
+            userVO.setRoleNo(memNo);
+            userVO.setMemNo(roleNo);
+            memberMapper.registerRole(userVO);
 
-    public int checkerMemId(MemberVO mvo ) {
-        return memberMapper.checkerMemId(mvo);
-    }
-
-    public int insert(MemberVO mvo ) {
-        return memberMapper.insert(mvo);
-    }
-
-    public MemberVO searchMember(MemberVO mvo ) {
-        return memberMapper.searchMember(mvo);
+            return "success";
+        }
+        return "fail";
     }
 }

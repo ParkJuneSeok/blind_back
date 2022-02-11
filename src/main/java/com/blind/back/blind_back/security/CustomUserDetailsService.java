@@ -7,8 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 
 @Service
@@ -19,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String memId) throws UsernameNotFoundException {
-        ArrayList<MemberVO> userList = memberMapper.findByUserId(memId);
+        ArrayList<MemberVO> userList = memberMapper.findByMemId(memId);
 
         if(userList.size() == 0) {
             throw new UsernameNotFoundException("User " + memId + " Not Found!");

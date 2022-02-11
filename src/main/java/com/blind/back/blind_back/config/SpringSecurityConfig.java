@@ -43,32 +43,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider(cudService));
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-		/*
-		 csrf 토큰 활성화시 사용
-		 쿠키를 생성할 때 HttpOnly 태그를 사용하면 클라이언트 스크립트가 보호된 쿠키에 액세스하는 위험을 줄일 수 있으므로 쿠키의 보안을 강화할 수 있다.
-		*/
-        //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-
-        http.authorizeRequests()
-            .antMatchers("/user/save").permitAll()
-            .antMatchers("/").hasAnyAuthority("ADMIN","USER")
-            .anyRequest().authenticated()
-            .and()
-            .csrf().ignoringAntMatchers("/user/save")
-            .and()
-            .formLogin()
-            .defaultSuccessUrl("/")
-            .and()
-            .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .deleteCookies("JSESSIONID")
-            .and()
-            .exceptionHandling()
-            .accessDeniedPage("/access-denied");
-    }
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService cudService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -77,4 +51,27 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+		/*
+		 csrf 토큰 활성화시 사용
+		 쿠키를 생성할 때 HttpOnly 태그를 사용하면 클라이언트 스크립트가 보호된 쿠키에 액세스하는 위험을 줄일 수 있으므로 쿠키의 보안을 강화할 수 있다.
+		*/
+        //http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+
+        http.cors().disable().authorizeRequests()
+                .antMatchers("/member/join").permitAll()
+                .antMatchers("/").hasAnyAuthority("ADMIN","USER")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/")
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .deleteCookies("JSESSIONID")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/access-denied");
+    }
 }

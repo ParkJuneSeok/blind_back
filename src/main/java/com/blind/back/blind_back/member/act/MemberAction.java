@@ -1,32 +1,39 @@
 package com.blind.back.blind_back.member.act;
 
 import com.blind.back.blind_back.member.biz.MemberService;
+import com.blind.back.blind_back.member.vo.CustomUserPrincipalVO;
 import com.blind.back.blind_back.member.vo.MemberVO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequestMapping("/api/member")
 @RestController
-@CrossOrigin(origins="*")
 @RequiredArgsConstructor
-@RequestMapping("/member")
 public class MemberAction {
     private final MemberService mService;
 
-    @PostMapping(value="/checker")
-    public int checkerId(@RequestBody MemberVO mvo) {
-        return mService.checkerMemId(mvo);
+    @GetMapping("/")
+    public String loadExceptionPage(ModelMap model) throws Exception{
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserPrincipalVO userPrincipalVO = (CustomUserPrincipalVO) auth.getPrincipal();
+        model.addAttribute("name",userPrincipalVO.getUsername());
+        model.addAttribute("auth",userPrincipalVO.getAuthorities());
+        return "index";
     }
+
 
     @PostMapping(value="/join")
     public Map<String, Object> joinA(@RequestBody MemberVO mvo) {
         Map<String, Object> rtnMap = new HashMap<>();
 
-        int rtnCode = mService.insert(mvo);
+        String rtnCode = mService.InsertUser(mvo);
 
         System.out.println(rtnCode);
 
