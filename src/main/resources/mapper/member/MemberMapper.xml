@@ -2,32 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.blind.back.blind_back.member.biz.MemberMapper">
-    <!-- -->
     <select id="findByMemId" parameterType="String" resultType="com.blind.back.blind_back.member.vo.MemberVO">
-        SELECT
-            U.MEMPW AS MEMPW,
-            U.MEMID AS MEMID,
-            R.ROLENAME AS ROLENAME
+        SELECT  U.MEMPW     AS MEMPW        ,
+                U.MEMID     AS MEMID        ,
+                R.ROLENAME  AS ROLENAME     ,
+                U.ENABLED   AS ENABLED
         FROM TBL_MEMBER AS U
         INNER JOIN TBL_MEMBER_ROLE AS UR ON U.MEMNO = UR.MEMNO
         INNER JOIN TBL_ROLE AS R ON R.ROLENO = UR.ROLENO
         WHERE U.MEMID = #{memId}
     </select>
-
-    <insert id="registerMember" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
-        INSERT INTO TBL_MEMBER(MEMID, MEMPW, MEMNICK) VALUES (#{MEMID}, #{MEMPW}, #{MEMNICK})
-    </insert>
-
-    <insert id="registerRole" parameterType="com.blind.back.blind_back.member.vo.MemberVO">
-        INSERT INTO TBL_MEMBER_ROLE(MEMNO, ROLENO) VALUES (#{MEMNO}, #{ROLENO})
-    </insert>
-
-    <select id="findMemNo" parameterType="String" resultType="Integer">
-        SELECT MEMNO FROM TBL_MEMBER WHERE MEMID = #{memId}
-    </select>
-
-    <select id="findRoleNo" parameterType="String" resultType="Integer">
-        SELECT ROLENO FROM TBL_ROLE WHERE ROLENAME = #{roleName}
-    </select>
-
 </mapper>
