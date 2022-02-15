@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="flagments/common :: head('게시판')"></head>
+
+    <body>
+        <nav th:replace="flagments/common :: TopMenu('BOARD')"></nav>
+
+        <div class="container">
+            <h1>게시판</h1>
+            <div> 총 건 수 : <span th:text="${#lists.size(list)}"></span> </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${list}">
+                        <td scope="row" th:text="${item.no}"></td>
+                        <td th:text="${item.title}"></td>
+                        <td>Otto</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+    </body>
+</html>

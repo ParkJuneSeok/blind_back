@@ -9,9 +9,5 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
 public class MemberAction {
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(value = "name", defaultValue = "World") String name, Model m) {
-        m.addAttribute("name", name);
-        return "greeting";
-    }
+
 }
