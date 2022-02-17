@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="flagments/common :: head('게시판')"></head>
+  <body>
+    <nav th:replace="flagments/common :: TopMenu('BOARD')"></nav>
+
+    <div class="container">
+      <form method="post" th:action="@{/board/insert}" th:object="${board}">
+        <input type="hidden" th:field="*{no}"/>
+        <div class="mb-3">
+          <label th:for="title" class="form-label">제목</label>
+          <input type="text" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" class="form-control" th:field="*{title}"/>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+
+        <div class="mb-3">
+          <label th:for="contents" class="form-label">본문</label>
+          <textarea th:classappend="${#fields.hasErrors('contents')} ? 'is-invalid'" class="form-control" rows="3" th:field="*{contents}"></textarea>
+          <div class="invalid-feedback" th:if="${#fields.hasErrors('contents')}" th:errors="*{contents}"></div>
+        </div>
+
+        <div class="text-right">
+          <a type="button" class="btn btn-primary" th:href="@{/board/list}">취소</a>
+          <button type="submit" class="btn btn-primary" th:href="@{/board/insert}">확인</button>
+        </div>
+      </form>
+    </div>
+
+    <footer th:replace="flagments/common :: footer('BOARD')"></footer>
+  </body>
+</html>

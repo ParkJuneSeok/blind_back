@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.blind.back.blind_back.member.biz.MemberMapper">
-    <select id="findByMemId" parameterType="String" resultType="com.blind.back.blind_back.member.vo.MemberVO">
+    <select id="findByMemId" parameterType="String" resultType="com.blind.back.blind_back.member.entity.MemberVO">
         SELECT  U.MEMPW     AS MEMPW        ,
                 U.MEMID     AS MEMID        ,
                 R.ROLENAME  AS ROLENAME     ,

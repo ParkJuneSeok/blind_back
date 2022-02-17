@@ -10,6 +10,7 @@
     <!-- 부트스트랩 -->
     <link href="http://bootstrapk.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/starter-template.css" th:href="@{/css/starter-template.css}" rel="stylesheet">
+
   </head>
 
   <body>
@@ -33,5 +34,10 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+    <footer th:fragment="footer(target)">
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+    </footer>
   </body>
 </html>

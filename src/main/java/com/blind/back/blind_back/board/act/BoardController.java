@@ -1,13 +1,15 @@
 package com.blind.back.blind_back.board.act;
 
-import com.blind.back.blind_back.board.biz.BoardRepository;
-import com.blind.back.blind_back.board.vo.Board;
+import com.blind.back.blind_back.board.repo.BoardRepository;
+import com.blind.back.blind_back.board.entity.Board;
+import com.blind.back.blind_back.board.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -16,11 +18,34 @@ import java.util.List;
 public class BoardController  {
 
     private final BoardRepository boardRepository;
+    private final BoardValidator boardValidator;
 
     @GetMapping("/list")
     public String index(Model m) {
         List<Board> boardList = boardRepository.findAll();
         m.addAttribute("list", boardList);
         return "board/list";
+    }
+
+    @GetMapping("/insert")
+    public String insertV(Model m, @RequestParam(required = false) Long no) {
+        Board b = new Board();
+        if(no != null) {
+            b = boardRepository.findById(no).orElse(null);
+        }
+
+        m.addAttribute("board", b);
+        return "board/insert";
+    }
+
+    @PostMapping("/insert")
+    public String insertA(@Valid Board board, BindingResult bind) {
+        boardValidator.validate(board, bind);
+        if(bind.hasErrors()) {
+            return "board/insert";
+        }
+
+        boardRepository.save(board);
+        return "redirect:/board/list";
     }
 }

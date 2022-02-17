@@ -7,8 +7,7 @@
 
         <div class="container">
             <h1>게시판</h1>
-            <div> 총 건 수 : <span th:text="${#lists.size(list)}"></span> </div>
-
+            <div></div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -20,14 +19,16 @@
                 <tbody>
                     <tr th:each="item : ${list}">
                         <td scope="row" th:text="${item.no}"></td>
-                        <td th:text="${item.title}"></td>
+                        <td> <a th:text="${item.title}" th:href="@{/board/insert(no=${item.no})}"/> </td>
                         <td>Otto</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="text-right">
+                <a type="button" class="btn btn-primary" th:href="@{/board/insert}">쓰기</a>
+            </div>
         </div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+        <footer th:replace="flagments/common :: footer('BOARD')"></footer>
     </body>
 </html>
