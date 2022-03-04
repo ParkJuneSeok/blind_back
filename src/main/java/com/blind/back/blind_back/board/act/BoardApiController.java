@@ -4,6 +4,7 @@ import com.blind.back.blind_back.board.entity.Board;
 import com.blind.back.blind_back.board.repo.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -14,14 +15,14 @@ public class BoardApiController {
 
     private final BoardRepository boardRepository;
 
-
-    // Aggregate root
-    // tag::get-aggregate-root[]
     @GetMapping("/board")
-    List<Board> all() {
-        return boardRepository.findAll();
+    List<Board> all(@RequestParam(required=false) String title) {
+        if(StringUtils.isEmpty(title)) {
+            return boardRepository.findAll();
+        } else {
+            return boardRepository.findByTitle(title);
+        }
     }
-    // end::get-aggregate-root[]
 
     @PostMapping("/board")
     Board newEmployee(@RequestBody Board board) {
@@ -35,16 +36,14 @@ public class BoardApiController {
     }
 
     @PutMapping("/board/{id}")
-    Board replaceEmployee(@RequestBody Board board, @PathVariable Long no) {
-
-        return boardRepository.findById(no)
-                .map(board1 -> {
-                    board1.setTitle(board.getTitle());
-                    board1.setContents(board.getContents());
-                    return boardRepository.save(board);
-                })
-                .orElseGet(() -> {
-                    board.setNo(no);
+    Board replaceEmployee(@RequestBody Board board, @PathVariable Long id) {
+        return boardRepository.findById(id).map(initBoard -> {
+                    System.out.println(initBoard.getNo());
+                    initBoard.setTitle(board.getTitle());
+                    initBoard.setContents(board.getContents());
+                    return boardRepository.save(initBoard);
+                }).orElseGet(() -> {
+                    board.setNo(id);
                     return boardRepository.save(board);
                 });
     }

@@ -4,6 +4,10 @@ import com.blind.back.blind_back.board.repo.BoardRepository;
 import com.blind.back.blind_back.board.entity.Board;
 import com.blind.back.blind_back.board.validator.BoardValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +25,15 @@ public class BoardController  {
     private final BoardValidator boardValidator;
 
     @GetMapping("/list")
-    public String index(Model m) {
-        List<Board> boardList = boardRepository.findAll();
-        m.addAttribute("list", boardList);
+    public String index(@PageableDefault(size=5) Pageable pageable, Model m) {
+        Page<Board> board = boardRepository.findAll(pageable);
+
+        int firstPage = Math.max(1, board.getPageable().getPageNumber() - 4);
+        int lastPage = Math.min(board.getTotalPages(), board.getPageable().getPageNumber() + 4);
+
+        m.addAttribute("firstPage", firstPage);
+        m.addAttribute("lastPage", lastPage);
+        m.addAttribute("list", board);
         return "board/list";
     }
 
