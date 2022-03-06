@@ -7,7 +7,18 @@
 
         <div class="container">
             <h1>게시판</h1>
-            <div>총 건수 : <span th:text="${list.totalElements}"></span></div>
+
+            <div class="d-flex bd-highlight">
+                <div class="p-2 flex-fill bd-highlight">총 건수 : <span th:text="${list.totalElements}"></span></div>
+                <div class="p-2 flex-fill bd-highlight">
+                    <form method="get" th:action="@{/board/list}">
+                        <label for="searchText" class="sr-only">검색</label>
+                        <input type="text" class="form-control-plaintext" id="searchText" name="searchText" th:value="${param.searchText}">
+                        <button type="submit" class="btn btn-dark">검색</button>
+                    </form>
+                </div>
+            </div>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -28,15 +39,15 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${1 == list.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber - 1})}">Previous</a>
+                        <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
                     </li>
 
                     <li class="page-item" th:classappend="${page == list.pageable.pageNumber + 1} ? 'disabled'" th:each="page : ${#numbers.sequence(firstPage, lastPage)}">
-                        <a class="page-link" th:href="@{/board/list(page=${page - 1})}" th:text="${page}"></a>
+                        <a class="page-link" th:href="@{/board/list(page=${page - 1}, searchText=${param.searchText})}" th:text="${page}"></a>
                     </li>
 
                     <li class="page-item" th:classappend="${list.totalPages == list.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber + 1})}">Next</a>
+                        <a class="page-link" th:href="@{/board/list(page=${list.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
                     </li>
                 </ul>
             </nav>

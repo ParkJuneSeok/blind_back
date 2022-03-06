@@ -25,8 +25,9 @@ public class BoardController  {
     private final BoardValidator boardValidator;
 
     @GetMapping("/list")
-    public String index(@PageableDefault(size=5) Pageable pageable, Model m) {
-        Page<Board> board = boardRepository.findAll(pageable);
+    public String index(@RequestParam(required=false, defaultValue="") String searchText, @PageableDefault(size=5) Pageable pageable, Model m) {
+        //Page<Board> board = boardRepository.findAll(pageable);
+        Page<Board> board = boardRepository.findByTitleContainingOrContentsContaining(searchText, searchText, pageable);
 
         int firstPage = Math.max(1, board.getPageable().getPageNumber() - 4);
         int lastPage = Math.min(board.getTotalPages(), board.getPageable().getPageNumber() + 4);
