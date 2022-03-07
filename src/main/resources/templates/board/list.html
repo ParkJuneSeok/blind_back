@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head th:replace="flagments/common :: head('게시판')"></head>
 
-    <body>
+    <body class="text-center">
         <nav th:replace="flagments/common :: TopMenu('BOARD')"></nav>
 
         <div class="container">
@@ -30,7 +30,7 @@
                 <tbody>
                     <tr th:each="item : ${list}">
                         <td scope="row" th:text="${item.no}"></td>
-                        <td> <a th:text="${item.title}" th:href="@{/board/insert(no=${item.no})}"/> </td>
+                        <td> <a th:text="${item.tit le}" th:href="@{/board/insert(no=${item.no})}"/> </td>
                         <td>Otto</td>
                     </tr>
                 </tbody>

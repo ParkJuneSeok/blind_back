@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="flagments/common :: head('로그인')"></head>
+
+<body class="text-center">
+  <main class="form-signin">
+
+
+    <form method="post" th:action="@{/member/login}">
+      <img class="mb-4" src="https://getbootstrap.kr/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+      <div class="form-floating">
+        <input type="text" class="form-control" id="memId" name="memId" placeholder="Account">
+        <label for="memId">USER ID</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="memPw" name="memPw" placeholder="Password">
+        <label for="memPw">USER PW</label>
+      </div>
+
+      <div class="alert alert-danger" role="alert" th:if="${param.error}">
+        Invalid MemID AND Password
+      </div>
+
+      <div class="alert alert-info" role="alert" th:if="${param.logout}">
+        You Hhave been logged out
+      </div>
+
+      <button class="w-100 btn btn-lg btn-dark" type="submit">Sign in</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    </form>
+  </main>
+
+  <footer th:replace="flagments/common :: footer('BOARD')"></footer>
+</body>
+</html>
