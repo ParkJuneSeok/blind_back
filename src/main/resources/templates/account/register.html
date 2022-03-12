@@ -6,6 +6,10 @@
   <main class="form-signin">
 
     <form method="post" th:action="@{/member/register}">
+      <div class="alert alert-danger" role="alert" th:if="${param.error}">
+        Invalid MemID AND Password
+      </div>
+
       <img class="mb-4" src="https://getbootstrap.kr/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
@@ -18,12 +22,9 @@
         <label for="memPw">USER PW</label>
       </div>
 
-      <div class="alert alert-danger" role="alert" th:if="${param.error}">
-        Invalid MemID AND Password
-      </div>
-
-      <div class="alert alert-info" role="alert" th:if="${param.logout}">
-        You Hhave been logged out
+      <div class="form-floating">
+        <input type="text" class="form-control" id="memNick" name="memNick" placeholder="NickName">
+        <label for="memPw">USER NICK</label>
       </div>
 
       <button class="w-100 btn btn-lg btn-dark" type="submit">Sign in</button>

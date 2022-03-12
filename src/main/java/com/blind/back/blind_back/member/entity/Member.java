@@ -3,6 +3,7 @@ package com.blind.back.blind_back.member.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,17 +12,21 @@ import java.util.List;
 public class Member {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name="mem_no")
     private Long memNo;
 
+    @Column(name="mem_id")
     private String memId;
+    @Column(name="mem_pw")
     private String memPw;
+    @Column(name="mem_nick")
     private String memNick;
+    @Column(name="enabled")
     private Boolean enabled;
 
     @ManyToMany
-    @JoinTable(
-            name = "MEMBER_ROLE",
-            joinColumns = @JoinColumn(name = "MEMNO"),
-            inverseJoinColumns = @JoinColumn(name = "ROLENO"))
-    private List<Role> roles;
+    @JoinTable(name = "member_role",
+               joinColumns = @JoinColumn(name = "mem_no"),
+               inverseJoinColumns = @JoinColumn(name = "role_no"))
+    private List<Role> roles = new ArrayList<>();
 }

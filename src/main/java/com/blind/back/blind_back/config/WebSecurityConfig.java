@@ -17,13 +17,17 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/css/**").permitAll()
+                .antMatchers("/", "/member/register", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -33,23 +37,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .logout()
-            .permitAll();
+                .permitAll();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(new BCryptPasswordEncoder())
-                .usersByUsernameQuery("SELECT MEMID, MEMNICK, ENABLED FROM mysqlvs.MEMBER WHERE MEMID = ?")
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("SELECT mem_id, mem_nick, enabled FROM mysqlvs.member WHERE mem_id = ?")
                 .authoritiesByUsernameQuery(
-                    "SELECT  M.MEMID, R.ROLENAME    " +
-                    "FROM mysqlvs.MEMBER M                  " +
-                    "INNER JOIN mysqlvs.MEMBER_ROLE MR      " +
-                    "ON M.MEMNO = MR.MEMNO          " +
-                    "INNER JOIN mysqlvs.ROLE R              " +
-                    "ON R.ROLENO = MR.ROLENO        " +
-                    "WHERE M.MEMID = ?              "
+                    "SELECT  m.mem_id, r.role_name    " +
+                    "FROM mysqlvs.member m                  " +
+                    "INNER JOIN mysqlvs.member_role mr      " +
+                    "ON m.mem_no = mr.mem_no          " +
+                    "INNER JOIN mysqlvs.role r              " +
+                    "ON r.role_no = mr.role_no        " +
+                    "WHERE m.mem_id = ?              "
                 );
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

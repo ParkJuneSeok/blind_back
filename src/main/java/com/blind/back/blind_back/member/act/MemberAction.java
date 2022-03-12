@@ -28,7 +28,8 @@ public class MemberAction {
 
     @PostMapping("/register")
     public String registerA(Member member) {
-        return "/account/login";
+        mService.save(member);
+        return "redirect:/";
     }
 
 }
