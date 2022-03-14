@@ -8,14 +8,14 @@
     <title th:text="${title}"></title>
 
     <!-- 부트스트랩 -->
-    <link href="http://bootstrapk.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/starter-template.css" th:href="@{/css/starter-template.css}" rel="stylesheet">
-    <link th:if="${title == '로그인'}" href="css/sign-css.css" th:href="@{/css/sign-css.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link th:href="@{/css/starter-template.css}" rel="stylesheet">
+    <link th:if="${title == '로그인'}" th:href="@{/css/sign-css.css}" rel="stylesheet">
   </head>
 
   <body>
-    <nav th:fragment="TopMenu(target)" class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+    <nav th:fragment="TopMenu(target)" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -28,16 +28,26 @@
 
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li th:classappend="${target == 'INDEX'} ? 'active'"><a th:href="@{/}">홈</a></li>
-            <li th:classappend="${target == 'BOARD'} ? 'active'"><a th:href="@{/board/list}">게시판</a></li>
+            <li class="nav-item" th:classappend="${target == 'INDEX'} ? 'active'">
+              <a class="nav-link" th:href="@{/}">홈</a>
+            </li>
+            <li class="nav-item" th:classappend="${target == 'BOARD'} ? 'active'">
+              <a class="nav-link" th:href="@{/board/list}">게시판</a>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
-      </div>
     </nav>
 
     <footer th:fragment="footer(target)">
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+              integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+              crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+              integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+              crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+              integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+              crossorigin="anonymous"></script>
     </footer>
   </body>
 </html>

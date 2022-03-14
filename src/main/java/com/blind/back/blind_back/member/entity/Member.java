@@ -15,10 +15,9 @@ public class Member {
     @Column(name="mem_no")
     private Long memNo;
 
-    @Column(name="mem_id")
-    private String memId;
-    @Column(name="mem_pw")
-    private String memPw;
+
+    private String username;
+    private String password;
     @Column(name="mem_nick")
     private String memNick;
     @Column(name="enabled")

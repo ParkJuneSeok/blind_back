@@ -1,6 +1,5 @@
 package com.blind.back.blind_back.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
@@ -17,12 +18,8 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
-
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    private DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,8 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/member/login")
-                .usernameParameter("memId")
-                .passwordParameter("memPw")
                 .permitAll()
                 .and()
             .logout()
@@ -45,15 +40,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT mem_id, mem_nick, enabled FROM mysqlvs.member WHERE mem_id = ?")
+                .usersByUsernameQuery("SELECT username, password, enabled FROM mysqlvs.member WHERE username = ?")
                 .authoritiesByUsernameQuery(
-                    "SELECT  m.mem_id, r.role_name    " +
-                    "FROM mysqlvs.member m                  " +
+                    "SELECT     m.username, r.role_name     " +
+                    "FROM       mysqlvs.member m            " +
                     "INNER JOIN mysqlvs.member_role mr      " +
-                    "ON m.mem_no = mr.mem_no          " +
+                    "ON         m.mem_no = mr.mem_no        " +
                     "INNER JOIN mysqlvs.role r              " +
-                    "ON r.role_no = mr.role_no        " +
-                    "WHERE m.mem_id = ?              "
+                    "ON         r.role_no = mr.role_no      " +
+                    "WHERE      m.username = ?              "
                 );
     }
 

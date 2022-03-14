@@ -30,7 +30,7 @@
                 <tbody>
                     <tr th:each="item : ${list}">
                         <td scope="row" th:text="${item.no}"></td>
-                        <td> <a th:text="${item.tit le}" th:href="@{/board/insert(no=${item.no})}"/> </td>
+                        <td> <a th:text="${item.title}" th:href="@{/board/insert(no=${item.no})}"/> </td>
                         <td>Otto</td>
                     </tr>
                 </tbody>
