@@ -16,7 +16,7 @@ public class MemberService {
     public PasswordEncoder passwordEncoder;
 
     public Member save(Member m) {
-        m.setPassword(passwordEncoder.encode(m.getPassword()));
+        m.setMemPw(passwordEncoder.encode(m.getMemPw()));
         m.setEnabled(true);
 
         Role role = new Role();

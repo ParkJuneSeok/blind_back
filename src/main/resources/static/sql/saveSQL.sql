@@ -1,24 +1,26 @@
 USE mysqlvs;
 CREATE TABLE IF NOT EXISTS mysqlvs.member (
-                                              mem_no       BIGINT          AUTO_INCREMENT PRIMARY KEY NOT NULL,
-                                              mem_id       VARCHAR(20)     NOT NULL,
-    mem_pw       VARCHAR(100)    NOT NULL,
-    mem_nick     VARCHAR(30)     UNIQUE NOT NULL,
+    mem_no      BIGINT          AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    mem_id      VARCHAR(20)     NOT NULL,
+    mem_pw      VARCHAR(100)    NOT NULL,
+    mem_nick    VARCHAR(30)     UNIQUE NOT NULL,
+    ins_date    DATETIME        DEFAULT CURRENT_TIMESTAMP,
+    upd_date    DATETIME        DEFAULT CURRENT_TIMESTAMP
     enabled     BIT(1)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS mysqlvs.role (
-                                            role_no      INT         PRIMARY KEY NOT NULL,
-                                            role_name    VARCHAR(20) NOT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    role_no      INT         PRIMARY KEY NOT NULL,
+    role_name    VARCHAR(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS mysqlvs.member_role (
-                                                   mem_no       BIGINT  NOT NULL,
-                                                   role_no      INT     NOT NULL,
-                                                   PRIMARY KEY (mem_no, role_no),
+    mem_no       BIGINT  NOT NULL,
+    role_no      INT     NOT NULL,
+    PRIMARY KEY (mem_no, role_no),
     FOREIGN KEY (mem_no)  REFERENCES member (mem_no),
     FOREIGN KEY (role_no) REFERENCES role (role_no)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS mysqlvs.board (
                                              NO         BIGINT           PRIMARY KEY AUTO_INCREMENT,

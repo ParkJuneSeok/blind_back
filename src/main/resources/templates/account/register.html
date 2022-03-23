@@ -3,25 +3,32 @@
 <head th:replace="flagments/common :: head('회원가입')"></head>
 
 <body class="text-center">
-    <form class="form-signin" method="post" th:action="@{/member/register}">
+    <form style="width:50%; margin-left: auto; margin-right: auto;" method="post" th:action="@{/member/register}">
       <div class="alert alert-danger" role="alert" th:if="${param.error}">
         Invalid MemID AND Password
       </div>
 
-      <img class="mb-4" src="https://getbootstrap.kr/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <!--<img class="mb-4" src="https://getbootstrap.kr/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="72">-->
+      <h1 class="h3 mb-3 fw-normal">정말 들어올거야? 잘 생각해봐.</h1>
 
-      <input type="text" class="form-control" id="username" name="username" placeholder="Account">
-      <label for="username" class="sr-only">USER ID</label>
+      <div class="form-group">
+        <input type="text" class="w-100 form-control" id="memId" name="memId" placeholder="아이디">
+        <label for="memId" class="sr-only">아이디</label>
+      </div>
 
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-      <label for="password" class="sr-only">USER PW</label>
+      <div class="form-group">
+        <input type="password" class="form-control" id="memPw" name="memPw" placeholder="비밀번호">
+        <label for="memPw" class="sr-only">비밀번호</label>
+      </div>
 
-      <input type="text" class="form-control" id="memNick" name="memNick" placeholder="NickName">
-      <label for="memNick" class="sr-only">USER NICK</label>
+      <div class="form-group">
+        <input type="text" class="form-control" id="memNick" name="memNick" placeholder="닉네임">
+        <label for="memNick" class="sr-only">닉네임</label>
+      </div>
 
-      <button class="w-100 btn btn-lg btn-dark" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+      <div class="form-group">
+        <button class="w-100 btn btn-lg btn-dark" type="submit">가입하기</button>
+      </div>
     </form>
     <footer th:replace="flagments/common :: footer('BOARD')"></footer>
 </body>

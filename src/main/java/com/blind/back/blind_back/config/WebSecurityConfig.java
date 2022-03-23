@@ -28,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
+                .usernameParameter("memId")
+                .passwordParameter("memPw")
                 .loginPage("/member/login")
                 .permitAll()
                 .and()
@@ -41,15 +43,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT username, password, enabled FROM mysqlvs.member WHERE username = ?")
+                .usersByUsernameQuery("SELECT mem_id, mem_pw, enabled FROM mysqlvs.member WHERE mem_id = ?")
                 .authoritiesByUsernameQuery(
-                    "SELECT     m.username, r.role_name     " +
+                    "SELECT     m.mem_id, r.role_name     " +
                     "FROM       mysqlvs.member m            " +
                     "INNER JOIN mysqlvs.member_role mr      " +
                     "ON         m.mem_no = mr.mem_no        " +
                     "INNER JOIN mysqlvs.role r              " +
                     "ON         r.role_no = mr.role_no      " +
-                    "WHERE      m.username = ?              "
+                    "WHERE      m.mem_id = ?              "
                 );
     }
 
